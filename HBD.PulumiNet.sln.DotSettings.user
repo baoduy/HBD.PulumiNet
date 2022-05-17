@@ -1,0 +1,12 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;
+  &lt;Assembly Path="/Users/baoduy2412/.nuget/packages/pulumi.azuread/5.12.0/lib/netcoreapp3.1/Pulumi.AzureAD.dll" /&gt;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=03a65e69_002D7809_002D4b10_002D837a_002Dd6909c45b0a6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CommonTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::FFCD0924-9C54-49A1-9E6C-54F4A407DAD8::net6.0::HBD.PulumiNet.Share.Tests.Common.HelperTests.GetDomainOnly&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::FFCD0924-9C54-49A1-9E6C-54F4A407DAD8::net6.0::HBD.PulumiNet.Share.Tests.Common.HelperTests.GetRootDomainOnly&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::FFCD0924-9C54-49A1-9E6C-54F4A407DAD8::net6.0::HBD.PulumiNet.Share.Tests.Common.LocationTests.GetAllLocations&lt;/TestId&gt;
+    &lt;TestId&gt;xUnit::FFCD0924-9C54-49A1-9E6C-54F4A407DAD8::net6.0::HBD.PulumiNet.Share.Tests.Common.StackTests.StackEnv_Tests&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
