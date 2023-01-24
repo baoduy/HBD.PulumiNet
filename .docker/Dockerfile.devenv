@@ -1,0 +1,29 @@
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS development
+WORKDIR /src
+
+USER root
+
+# Install tools
+RUN apt-get update \
+    && apt-get install -y git \
+    && apt-get -y install sudo
+
+#RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
+RUN sudo apt install python3-pip -y
+RUN pip3 install "pip>=20"
+RUN pip3 install azure-cli
+
+#RUN curl -sL https://aka.ms/InstallAzureCLIDeb | sudo bash
+
+RUN useradd -s /bin/bash -m vscode \
+    && groupadd docker \
+    && usermod -aG docker vscode
+
+RUN chown -R vscode:vscode /src
+RUN chmod 755 /src
+USER vscode
+
+RUN curl -fsSL https://get.pulumi.com | sh
+ENV PATH="$PATH:/home/vscode/.pulumi/bin"
+
+# CMD ['node','install-all.js']
