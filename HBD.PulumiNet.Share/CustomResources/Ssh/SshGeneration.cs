@@ -1,4 +1,4 @@
-namespace HBD.PulumiNet.Share.CustomResources;
+namespace HBD.PulumiNet.Share.CustomResources.Ssh;
 
 /// <summary>
 /// Using File as Dynamic Resource is not supported in .NET Core.

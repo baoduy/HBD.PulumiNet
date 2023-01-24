@@ -4,6 +4,14 @@ using Pulumi;
 
 namespace HBD.PulumiNet.Share.Types;
 
+public record BasicArgs
+{
+    public string Name { get; init; }
+    public ResourceGroupInfo Group{ get; set; }
+    public bool Lock { get; set; }
+}
+
+
 public record ConventionArgs(string? Prefix = null, string? Suffix = null );
 
 public record ResourceGroupInfo

@@ -1,5 +1,6 @@
 using HBD.PulumiNet.Share.Common;
 using HBD.PulumiNet.Share.CustomResources;
+using HBD.PulumiNet.Share.CustomResources.Ssh;
 using HBD.PulumiNet.Share.Types;
 using Pulumi;
 using Pulumi.Random;
@@ -54,8 +55,20 @@ public static class RandomCreator
         });
     }
 
+    /// <summary>
+    /// Create UuId
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public static RandomUuid CreateUuId(string name) => new(name);
 
+    /// <summary>
+    /// Create Random String
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="length"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
     public static RandomString CreateString(string name, int length = 10, RandomOptions? options = null)
     {
         options ??= new RandomOptions();
@@ -77,6 +90,11 @@ public static class RandomCreator
     public record RandomLoginNameArgs(string Name, int Length = 15, string? Prefix = default,
         RandomOptions? Options = null);
 
+    /// <summary>
+    /// Create Random Login name with a prefix and lenght
+    /// </summary>
+    /// <param name="args"></param>
+    /// <returns></returns>
     public static Output<string> CreateLoginName(RandomLoginNameArgs args)
     {
         var name = $"{args.Prefix}{args.Name}";
@@ -91,6 +109,11 @@ public static class RandomCreator
     
     public record SshArgs(string Name,AzResourceInfo? VaultInfo=null);
     
+    /// <summary>
+    /// Create Ssh
+    /// </summary>
+    /// <param name="args"></param>
+    /// <returns></returns>
     public static SshGeneration.Result RandomSsh (SshArgs args)
     {
         var name = args.Name.GetSshName();
