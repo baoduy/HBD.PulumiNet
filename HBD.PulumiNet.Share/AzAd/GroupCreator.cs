@@ -1,21 +1,25 @@
-using HBD.PulumiNet.Share.Common;
 using Pulumi;
 using Pulumi.AzureAD;
 using Pulumi.AzureNative.Authorization;
 
-namespace HBD.PulumiNet.Share.Ad;
+namespace HBD.PulumiNet.Share.AzAd;
 
+/// <summary>
+/// Synced 24/Jan/23
+/// </summary>
 public class GroupCreator
 {
     public record GroupPermissionArgs(string RoleName, Input<string>? Scope = null);
 
-    public record Args(string Name, Input<string>[]? Members = default,
+    public record Args(string Name,
+        InputList<string> Owners = null,
+        Input<string>[]? Members = default,
         GroupPermissionArgs[]? Permissions = null);
 
     public static async Task<Group> Create(Args args)
     {
         var group = new Group(args.Name,
-            new GroupArgs { DisplayName = args.Name, Owners = AzureEnv.DefaultOwners });
+            new GroupArgs { DisplayName = args.Name.ToUpper(), Owners = args.Owners });
 
         if (args.Members != null)
         {

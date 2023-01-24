@@ -6,16 +6,17 @@ using Pulumi.AzureNative.KeyVault.Inputs;
 
 namespace HBD.PulumiNet.Share.KeyVaults;
 
-public static class Helpers
+public static class VaultsHelpers
 {
-    public record SecretArgs(string Name, Input<string> Value, AzResourceInfo VaultInfo,
+    public record SecretArgs(string Name, 
+        Input<string> Value, 
+        AzResourceInfo VaultInfo,
         Input<string>? ContentType = default,
-        InputMap<string>? Tags = null, InputList<Resource>? DependsOn =null);
+        InputMap<string>? Tags = null, 
+        InputList<Resource>? DependsOn =null);
 
     public static Secret? AddSecret(SecretArgs args)
     {
-      
-        
         var name = args.Name.GetSecretName();
 
         //TODO: Check if it is not dry run and call Key Vault API to recover deleted secret if needed.

@@ -18,7 +18,7 @@ public class RoleDefinitionResult
     //public RoleDefinitionProperties Properties { get; set; } = new ();
 };
 
-public interface IAd
+public interface IAzureAd
 {
     [Get("/providers/Microsoft.Authorization/roleDefinitions?$filter=roleName eq '{roleName}'&api-version=2015-07-01")]
     Task<AzResult<RoleDefinitionResult>> GetRoleDefinitionAsync(string roleName);

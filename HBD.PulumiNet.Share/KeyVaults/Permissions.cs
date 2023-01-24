@@ -1,4 +1,4 @@
-using HBD.PulumiNet.Share.Ad;
+using HBD.PulumiNet.Share.AzAd;
 using Pulumi;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.KeyVault;

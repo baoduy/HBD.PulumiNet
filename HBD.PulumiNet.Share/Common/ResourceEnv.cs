@@ -1,10 +1,12 @@
+using System.Text;
 using HBD.PulumiNet.Share.Types;
-using Pulumi;
 
 namespace HBD.PulumiNet.Share.Common;
 
 public static class ResourceEnv
 {
+    public static readonly ConventionArgs ResourceConvention = new(StackEnv.StackName);
+
     /// <summary>
     /// Format Name with convention.
     /// </summary>
@@ -14,19 +16,23 @@ public static class ResourceEnv
     public static string FormatWith(this string name, ConventionArgs convention)
     {
         if (string.IsNullOrWhiteSpace(name)) return name;
-        name = name.Replace(" ", "-");
 
-        //Add prefix
+        var builder = new StringBuilder();
+        
         var (prefix, suffix) = convention;
 
+        //Add prefix
         if (!string.IsNullOrEmpty(prefix) && !name.StartsWith(prefix))
-            name = prefix + "-" + name;
+            builder.Append(prefix).Append('-');
 
+        //Add Name
+        builder.Append(name).Replace(" ", "-");
+        
         //Add the suffix
         if (!string.IsNullOrEmpty(suffix) && !name.EndsWith(suffix))
-            name = name + "-" + suffix;
+            builder.Append('-').Append(suffix);
 
-        return name.ToLower();
+        return builder.ToString().ToLower();
     }
 
     /// <summary>
@@ -35,51 +41,6 @@ public static class ResourceEnv
     /// <returns></returns>
     public static string AsResourceName(this string name, ConventionArgs? convention = default)
         => name.FormatWith(convention == null
-            ? Config.ResourceConvention
-            : convention.MergeWith(Config.ResourceConvention));
-
-    public static ResourceInfoResult? GetResourceInfoFromId(string id)
-    {
-        if (string.IsNullOrEmpty(id)) return null;
-
-        var details = id.Split("/");
-        var name = "";
-        var groupName = "";
-        var subscriptionId = "";
-
-        for (var i = 0; i < details.Length; i++)
-        {
-            var d = details[i].ToLower();
-            
-            switch (d)
-            {
-                case "subscriptions":
-                    subscriptionId = details[i + 1];
-                    break;
-                case "resourcegroups":
-                    groupName = details[i + 1];
-                    break;
-            }
-
-            name = d; //Name is the last item in the array.
-        }
-
-
-        return new ResourceInfoResult(name, new ResourceGroupInfo(groupName), subscriptionId, id);
-    }
-    
-    /// <summary>
-    /// Build Resource Id from Information
-    /// </summary>
-    /// <param name="props"></param>
-    /// <returns></returns>
-    /// <exception cref="ArgumentException"></exception>
-    public static Output<string> GetResourceIdFromInfo (ResourceInfoArgs props) {
-        if (props.Name==null && string.IsNullOrEmpty(props.Provider))
-            return Output.Format($"/subscriptions/${props.SubscriptionId}/resourceGroups/${props.Group.ResourceGroupName}");
-        else if (props.Name!=null && !string.IsNullOrEmpty(props.Provider))
-            return Output.Format($"/subscriptions/${props.SubscriptionId}/resourceGroups/${props.Group.ResourceGroupName}/providers/${props.Provider}/${props.Name}");
-
-        throw new ArgumentException("Resource Info is invalid.");
-    }
+            ? ResourceConvention
+            : convention.MergeWith(ResourceConvention));
 }

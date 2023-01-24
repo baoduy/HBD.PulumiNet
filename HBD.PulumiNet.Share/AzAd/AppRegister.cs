@@ -1,12 +1,15 @@
 using HBD.PulumiNet.Share.Common;
+using HBD.PulumiNet.Share.KeyVaults;
 using HBD.PulumiNet.Share.Types;
 using Pulumi;
 using Pulumi.AzureAD;
 using Pulumi.AzureAD.Inputs;
-using Helpers = HBD.PulumiNet.Share.KeyVaults.Helpers;
 
-namespace HBD.PulumiNet.Share.Ad;
+namespace HBD.PulumiNet.Share.AzAd;
 
+/// <summary>
+/// Synced 24/Jan/23
+/// </summary>
 public static class AppRegister
 {
     public record Args(string Name,
@@ -14,7 +17,10 @@ public static class AppRegister
         AzResourceInfo? VaultInfo = null,
         Input<string>? HomepageUrl = null,
         Input<string>? LogoutUrl = null,
-        bool AllowImplicit = false, bool AllowMultiOrg = false, InputList<ApplicationAppRoleArgs>? AppRoles = null,
+        InputList<string> Owners = null,
+        bool AllowImplicit = false, 
+        bool AllowMultiOrg = false, 
+        InputList<ApplicationAppRoleArgs>? AppRoles = null,
         InputList<ApplicationApiOauth2PermissionScopeArgs>? Oauth2PermissionScopes = null);
 
     public record Result(Output<string> ClientId, Output<string> ClientSecret);
@@ -32,7 +38,7 @@ public static class AppRegister
         var parameters = new ApplicationArgs
         {
             DisplayName = name,
-            Owners = AzureEnv.DefaultOwners,
+            Owners = args.Owners,
             AppRoles = args.AppRoles ?? new InputList<ApplicationAppRoleArgs>(),
             SignInAudience = args.AllowMultiOrg ? "AzureADMultipleOrgs" : "AzureADMyOrg",
             GroupMembershipClaims = "SecurityGroup",
@@ -66,11 +72,15 @@ public static class AppRegister
         var app = new Application(name, parameters);
 
         var appPass = new ApplicationPassword(name, new ApplicationPasswordArgs
-                {DisplayName = name, ApplicationObjectId = app.ApplicationId, EndDateRelative = "43800h"},
+                {DisplayName = name, 
+                    ApplicationObjectId = app.ApplicationId, 
+                    EndDateRelative = "43800h"},
             new CustomResourceOptions {DependsOn = app});
 
         var principal = new ServicePrincipal(name,
-            new ServicePrincipalArgs {Description = name, ApplicationId = app.ApplicationId, Owners = AzureEnv.DefaultOwners},
+            new ServicePrincipalArgs {Description = name, 
+                ApplicationId = app.ApplicationId, 
+                Owners = args.Owners},
             new CustomResourceOptions {DependsOn = app});
 
         var principalPass = new ServicePrincipalPassword(name,
@@ -79,13 +89,13 @@ public static class AppRegister
 
         if (args.VaultInfo != null)
         {
-            Helpers.AddSecret(new Helpers.SecretArgs(clientIdKeyName, app.ApplicationId, args.VaultInfo,
+            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(clientIdKeyName, app.ApplicationId, args.VaultInfo,
                 $"{name} ClientId", DependsOn: app));
-            Helpers.AddSecret(new Helpers.SecretArgs(clientSecretKeyName, appPass.Value, args.VaultInfo,
+            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(clientSecretKeyName, appPass.Value, args.VaultInfo,
                 $"{name} ClientSecret", DependsOn: appPass));
-            Helpers.AddSecret(new Helpers.SecretArgs(principalIdKeyName, principal.ObjectId, args.VaultInfo,
+            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(principalIdKeyName, principal.ObjectId, args.VaultInfo,
                 $"{name} PrincipalId", DependsOn: principal));
-            Helpers.AddSecret(new Helpers.SecretArgs(principalSecretKeyName, principalPass.Value, args.VaultInfo,
+            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(principalSecretKeyName, principalPass.Value, args.VaultInfo,
                 $"{name} PrincipalSecret", DependsOn: principalPass));
         }
 

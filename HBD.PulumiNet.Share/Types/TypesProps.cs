@@ -4,7 +4,7 @@ using Pulumi;
 
 namespace HBD.PulumiNet.Share.Types;
 
-public record ConventionArgs(string? Prefix = null, string? Suffix = null);
+public record ConventionArgs(string? Prefix = null, string? Suffix = null );
 
 public record ResourceGroupInfo
 {
@@ -35,7 +35,7 @@ public class AzureResourceItem
     public Dictionary<string, string> Tags { get; set; } = new();
 }
 
-public record ResourceInfoResult(string Name, ResourceGroupInfo Group, string SubscriptionId, string Id);
+public record ResourceInfoResult(string Name, ResourceGroupInfo Group, Output<string> Id);
 
 public class ResourceInfoArgs
 {

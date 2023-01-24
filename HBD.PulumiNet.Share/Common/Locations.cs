@@ -3,14 +3,17 @@ using Pulumi;
 
 namespace HBD.PulumiNet.Share.Common;
 
+/// <summary>
+/// Synced 24/Jan/23
+/// </summary>
 public static class Locations
 {
     private static IList<LocationResult>? _locationCache;
-    
+
     public static async Task<IList<LocationResult>> GetAllLocationsAsync()
     {
-        if(_locationCache !=null)return _locationCache;
-        
+        if (_locationCache != null) return _locationCache;
+
         var api = await Factory.Create<ILocationApi>();
         var result = await api.GetAsync();
         _locationCache = result.Value;

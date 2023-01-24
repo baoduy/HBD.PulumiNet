@@ -1,5 +1,8 @@
 namespace HBD.PulumiNet.Share.Common.AppConfigs;
 
+/// <summary>
+/// Synced on 24/Jan/23
+/// </summary>
 public class DotNetConfig
 {
     public static Dictionary<string, string> DefaultConfig = new()

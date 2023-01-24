@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HBD.PulumiNet.Share.Ad;
+using HBD.PulumiNet.Share.AzAd;
 using HBD.PulumiNet.Share.Core;
 using HBD.PulumiNet.Share.KeyVaults;
 

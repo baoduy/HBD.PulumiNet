@@ -10,6 +10,9 @@ public enum ConnectionType
     Secondary = 2,
 }
 
+/// <summary>
+/// Synced on 24/Jan/2023
+/// </summary>
 public static class Naming
 {
     /// <summary>
@@ -18,9 +21,9 @@ public static class Naming
     /// <param name="name"></param>
     /// <returns></returns>
     public static string GetResourceGroupName(this string name) =>
-        name.AsResourceName(new ConventionArgs(Suffix: string.IsNullOrEmpty(Config.OrganizationName)
+        name.AsResourceName(new ConventionArgs(Suffix: string.IsNullOrEmpty(StackEnv.OrganizationName)
             ? "grp"
-            : $"grp-{Config.OrganizationName}"));
+            : $"grp-{StackEnv.OrganizationName}"));
 
     /// <summary>
     /// Get Azure Storage Account and CosmosDb Name
@@ -51,19 +54,22 @@ public static class Naming
     }
 
     public static string GetConnectionName(this string name, ConnectionType type) =>
-        $"{GetSecretName(name)}-conn-${type}".ToLower();
+        $"{GetSecretName(name)}-conn-{type}".ToLower();
 
     public static string GetKeyName(this string name, ConnectionType type) =>
-        $"{GetSecretName(name)}-key-${type}".ToLower();
+        $"{GetSecretName(name)}-key-{type}".ToLower();
 
     public static string GetPasswordName(this string name, ConnectionType? type = null) =>
         type == null
             ? name.AsResourceName(new ConventionArgs(Suffix: "pwd"))
-            : $"{GetSecretName(name)}-pwd-${type}".ToLower();
+            : $"{GetSecretName(name)}-pwd-{type}".ToLower();
 
     public static string GetAutomationAccountName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "acc-auto"));
 
+    public static string GetB2cName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "b2c"));
+    
     public static string GetCosmosDbName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "cdb"));
 
@@ -73,16 +79,16 @@ public static class Naming
     public static string GetApimName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "apim"));
 
+    public static string GetSshName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "ssh"));
+    
     public static string GetIdentityName(this string name) =>
         name.AsResourceName();
 
     public static string GetAksName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "aks"));
-    
-    public static string GetSshName(this string name) =>
-        name.AsResourceName(new ConventionArgs(Suffix: "ssh"));
 
-    public static string GetK8SProviderName(this string name) =>
+    public static string GetK8sProviderName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "ks-pvd"));
 
     public static string GetAppInsightName(this string name) =>
@@ -90,37 +96,37 @@ public static class Naming
 
     public static string GetLogWpName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "log"));
-
+    
     public static string GetWebTestName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "hlz"));
 
     public static string GetAlertName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "alt"));
-
+    
     public static string GetRedisCacheName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "rds"));
-
+    
     public static string GetServiceBusName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "bus"));
 
     public static string GetPrivateEndpointName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "pre"));
-
+    
     public static string GetSignalRName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "sigr"));
-
+    
     public static string GetElasticPoolName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "elp"));
-
+    
     public static string GetSqlDbName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "db"));
-
+    
     public static string GetSqlServerName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "sql"));
 
     public static string GetFirewallName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "fw"));
-
+    
     public static string GetFirewallPolicyName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "fwp"));
 
@@ -135,13 +141,28 @@ public static class Naming
 
     public static string GetVnetName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "vnt"));
+    
+    public static string GetWanName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "wan"));
+    
+    public static string GetHubName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "hub"));
+    
+    public static string GetRouteName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "route"));
 
     public static string GetRouteItemName(this string name) =>
-        name.AsResourceName();
-
+        name.AsResourceName(new ConventionArgs{Suffix = string.Empty});
+    
+    public static string GetNetworkSecurityGroupName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "nsg"));
+    
     public static string GetIpAddressName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "ip"));
-
+    
+    public static string GetIpAddressPrefixName(this string name) =>
+        name.AsResourceName(new ConventionArgs(Suffix: "ipx"));
+    
     public static string GetAppGatewayName(this string name) =>
         name.AsResourceName(new ConventionArgs(Suffix: "gwt"));
 

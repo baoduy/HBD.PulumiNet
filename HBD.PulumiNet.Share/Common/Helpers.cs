@@ -4,8 +4,27 @@ using Pulumi;
 
 namespace HBD.PulumiNet.Share.Common;
 
+/// <summary>
+/// Synced 24/Jan/23
+/// </summary>
 public static class Helpers
 {
+    /// <summary>
+    /// Convert String to Base64
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static string ToBase64(this string value)
+        => Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(value));
+
+    /// <summary>
+    /// Convert Base64 to String
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    public static string FromBase64(this string value)
+        => System.Text.Encoding.UTF8.GetString((Convert.FromBase64String(value)));
+
     /// <summary>
     /// Get Domain or Sub-Domain name from url. ex https://app.drunkcoding.net => app.drunkcoding.net
     /// </summary>
