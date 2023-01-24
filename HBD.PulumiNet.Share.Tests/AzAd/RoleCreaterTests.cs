@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using HBD.PulumiNet.Share.AzAd;
 using HBD.PulumiNet.Share.Common;
+using HBD.PulumiNet.Share.Tests.Stacks;
 using Pulumi;
 using Pulumi.AzureAD;
 using Xunit;

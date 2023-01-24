@@ -27,4 +27,8 @@
       <ProjectReference Include="..\HBD.PulumiNet.Share\HBD.PulumiNet.Share.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Stacks" />
+    </ItemGroup>
+
 </Project>

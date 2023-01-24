@@ -6,12 +6,12 @@ namespace HBD.PulumiNet.Share.AzAd;
 
 public static class RoleCreator
 {
-    public record Args(Environments Env, 
-        string AppName, 
-        string Name, 
+    public record Args(Environments Env,
+        string AppName,
+        string Name,
         string? ModuleName = default,
         string Location = "GLB",
-        Input<string>[]? Members = default, 
+        Input<string>[]? Members = default,
         GroupCreator.GroupPermissionArgs[]? Permissions = null);
 
     public static Task<Group> Create(Args args)

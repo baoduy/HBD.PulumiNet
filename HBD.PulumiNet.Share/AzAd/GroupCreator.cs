@@ -1,3 +1,4 @@
+using HBD.PulumiNet.Share.Common;
 using Pulumi;
 using Pulumi.AzureAD;
 using Pulumi.AzureNative.Authorization;
@@ -18,8 +19,10 @@ public class GroupCreator
 
     public static async Task<Group> Create(Args args)
     {
-        var group = new Group(args.Name,
-            new GroupArgs { DisplayName = args.Name.ToUpper(), Owners = args.Owners });
+        var name = args.Name.ToUpper();
+
+        var group = new Group(name,
+            new GroupArgs { DisplayName = name, Owners = args.Owners });
 
         if (args.Members != null)
         {
