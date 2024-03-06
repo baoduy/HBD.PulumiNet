@@ -1,4 +1,3 @@
-using Pulumi;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.Insights;
 using Pulumi.AzureNative.Insights.Inputs;

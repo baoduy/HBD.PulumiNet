@@ -1,11 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HBD.PulumiNet.Share.AzAd;
 using HBD.PulumiNet.Share.Core;
 using HBD.PulumiNet.Share.Tests.Stacks;
 using Pulumi;
-using Pulumi.AzureAD;
 using Pulumi.AzureNative.Resources;
 using Xunit;
 

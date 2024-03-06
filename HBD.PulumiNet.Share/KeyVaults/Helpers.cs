@@ -1,6 +1,3 @@
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 using Pulumi.AzureNative.KeyVault;
 using Pulumi.AzureNative.KeyVault.Inputs;
 
@@ -24,13 +21,13 @@ public static class VaultsHelpers
             new Pulumi.AzureNative.KeyVault.SecretArgs
             {
                 SecretName = name,
-                Tags = args.Tags ?? new InputMap<string>(),
+                Tags = args.Tags ?? [],
                 Properties = new SecretPropertiesArgs
                     { Value = args.Value, ContentType = args.ContentType },
                 VaultName = args.VaultInfo.Name,
                 ResourceGroupName = args.VaultInfo.Group.ResourceGroupName,
                 
-            }, new CustomResourceOptions{DependsOn = args.DependsOn??new InputList<Resource>()});
+            }, new CustomResourceOptions{DependsOn = args.DependsOn?? [] });
     }
 
     public record KeyArgs(string Name, AzResourceInfo VaultInfo, InputMap<string>? Tags = null);
@@ -44,20 +41,20 @@ public static class VaultsHelpers
             new Pulumi.AzureNative.KeyVault.KeyArgs
             {
                 KeyName = name,
-                Tags = args.Tags ?? new InputMap<string>(),
+                Tags = args.Tags ?? [],
                 Properties = new KeyPropertiesArgs
                 {
                     KeySize = 2048,
                     Kty = "RSA",
-                    KeyOps = new InputList<Union<string, JsonWebKeyOperation>>
-                    {
+                    KeyOps =
+                    [
                         "decrypt",
                         "encrypt",
                         "sign",
                         "verify",
                         "wrapKey",
-                        "unwrapKey",
-                    },
+                        "unwrapKey"
+                    ],
                     //curveName: 'P512',
                     Attributes = new KeyAttributesArgs { Enabled = true },
                 },

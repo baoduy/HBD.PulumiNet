@@ -1,6 +1,4 @@
 using HBD.PulumiNet.Share.Refits;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 
 namespace HBD.PulumiNet.Share.Common;
 

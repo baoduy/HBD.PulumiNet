@@ -1,8 +1,8 @@
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 // ReSharper disable NotAccessedField.Global
 // ReSharper disable MemberCanBePrivate.Global
 // ReSharper disable UnusedMember.Global
+
+using System.Text.Json;
 
 namespace HBD.PulumiNet.Share.Common;
 
@@ -21,17 +21,17 @@ public static class AzureEnv
 {
     public static readonly Output<string> TenantId;
     public static readonly Output<string> SubscriptionId;
-    public static readonly Output<string> CurrentServicePrincipal;
-    public static readonly string DefaultLocation;
+    public static readonly Output<string> CurrentPrincipal;
+    public static readonly string CurrentLocation;
     public static readonly Output<string> DefaultScope;
-    
+
     public static readonly Dictionary<string, string> DefaultTags = new()
     {
         ["environment"] = StackEnv.StackName,
         ["organization"] = StackEnv.OrganizationName,
         ["pulumi-project"] = StackEnv.ProjectName,
     };
-    
+
     public static readonly bool IsDev;
     public static readonly bool IsSandbox;
     public static readonly bool IsPrd;
@@ -39,29 +39,35 @@ public static class AzureEnv
 
     static AzureEnv()
     {
-        var client = Output.Create(Pulumi.AzureNative.Authorization.GetClientConfig.InvokeAsync());
-        TenantId = client.Apply(c => c.TenantId);
-        SubscriptionId = client.Apply(c => c.SubscriptionId);
-        CurrentServicePrincipal = client.Apply(c => c.ObjectId);
+        var config = Pulumi.AzureNative.Authorization.GetClientConfig.Invoke();
+
+        TenantId = config.Apply(c => c.TenantId);
+        SubscriptionId = config.Apply(c => c.SubscriptionId);
+        CurrentPrincipal = config.Apply(c => c.ObjectId);
         DefaultScope = SubscriptionId.Apply(s => $"/subscriptions/{s}");
-        DefaultLocation = new Config("azure-native").Require("location");
+        CurrentLocation =
+            JsonSerializer.Deserialize<Dictionary<string, string>>(Environment.GetEnvironmentVariable("PULUMI_CONFIG")!)
+                !["azure-native:location"];
 
         IsDev = IsEnv(Environments.Dev);
         IsPrd = IsEnv(Environments.Prd);
         IsSandbox = IsEnv(Environments.Sandbox);
         CurrentEnv = GetCurrentEnv();
-        
+
         //Print console
-        Output.All(SubscriptionId, TenantId).Apply(s =>
-        {
-            Console.WriteLine($"Current Azure: TenantId {s[1]}, SubscriptionId {s[0]}");
-            return string.Empty;
-        });
+        Output.Format(
+                $"\n\tTenantId {TenantId}, \n\tSubscriptionId {SubscriptionId}, \n\tLocation: {CurrentLocation}")
+            .Apply(s =>
+            {
+                Console.WriteLine("Azure Environment: {0}", s);
+                return string.Empty;
+            });
     }
-    
+
     public static bool IsEnv(Environments env) => StackEnv.StackName.Contains(env.ToString().ToLower());
-    
-    public static Environments GetCurrentEnv() {
+
+    public static Environments GetCurrentEnv()
+    {
         if (IsPrd) return Environments.Prd;
         if (IsSandbox) return Environments.Sandbox;
         return IsDev ? Environments.Dev : Environments.Global;
@@ -76,7 +82,7 @@ public static class AzureEnv
     {
         var vaultName = groupName.GetKeyVaultName();
         var resourceGroupName = groupName.GetResourceGroupName();
-        
+
         return new ResourceInfoResult(
             vaultName,
             new ResourceGroupInfo(resourceGroupName),
@@ -116,7 +122,7 @@ public static class AzureEnv
         }
 
 
-        return new ResourceInfoResult(name, new ResourceGroupInfo(groupName),Output.Create( id));
+        return new ResourceInfoResult(name, new ResourceGroupInfo(groupName), Output.Create(id));
     }
 
     /// <summary>
@@ -130,7 +136,7 @@ public static class AzureEnv
         if (props.Name == null && string.IsNullOrEmpty(props.Provider))
             return Output.Format(
                 $"/subscriptions/{props.SubscriptionId}/resourceGroups/{props.Group.ResourceGroupName}");
-        
+
         if (props.Name != null && !string.IsNullOrEmpty(props.Provider))
             return Output.Format(
                 $"/subscriptions/{props.SubscriptionId}/resourceGroups/{props.Group.ResourceGroupName}/providers/{props.Provider}/{props.Name}");

@@ -1,12 +1,9 @@
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 using Pulumi.AzureNative.AzureActiveDirectory;
 using Pulumi.AzureNative.AzureActiveDirectory.Inputs;
 
 namespace HBD.PulumiNet.Share.AzAd;
 
-public static class AdB2c
+public static class AdB2C
 {
     public enum Locations
     {
@@ -16,7 +13,7 @@ public static class AdB2c
         EU = 1 << 3
     }
 
-    public record Args : BasicArgs
+    public record Args(string Name, ResourceGroupInfo Group) : BasicArgs(Name, Group)
     {
         public string? DisplayName { get; init; }
         public Locations Location { get; init; }
@@ -41,8 +38,8 @@ public static class AdB2c
             ResourceGroupName = args.Group.ResourceGroupName,
             Location = GetLocationName(args.Location),
 
-            Properties = new CreateTenantRequestBodyPropertiesArgs
-                { DisplayName = args.DisplayName ?? name, CountryCode = args.Location.ToString() },
+            DisplayName = args.DisplayName ?? name, 
+            CountryCode = args.Location.ToString(),
             
             Sku = new B2CResourceSKUArgs
             {
@@ -53,7 +50,7 @@ public static class AdB2c
 
         if (args.Lock)
         {
-            Lo
+            
         }
     }
 }

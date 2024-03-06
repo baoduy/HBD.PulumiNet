@@ -1,5 +1,3 @@
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.Types;
 using Pulumi.AzureNative.Resources;
 
 namespace HBD.PulumiNet.Share.Core;

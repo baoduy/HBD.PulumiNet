@@ -1,5 +1,4 @@
 using HBD.PulumiNet.Share.Refits;
-using Pulumi;
 
 namespace HBD.PulumiNet.Share.Common;
 
@@ -27,7 +26,7 @@ public static class Locations
         var location = locations.FirstOrDefault(
             l => string.Equals(l.Name, possibleName, StringComparison.OrdinalIgnoreCase));
 
-        return location?.DisplayName ?? AzureEnv.DefaultLocation;
+        return location?.DisplayName ?? AzureEnv.CurrentLocation;
     }
 
     public static Output<string> GetLocation(Input<string> possibleName) => possibleName.Apply(GetLocationString);

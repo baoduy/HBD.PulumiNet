@@ -1,10 +1,7 @@
-using HBD.PulumiNet.Share.Common;
 using HBD.PulumiNet.Share.KeyVaults;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 using Pulumi.AzureAD;
 using Pulumi.AzureAD.Inputs;
-
+using ApplicationAppRoleArgs = Pulumi.AzureAD.Inputs.ApplicationAppRoleArgs;
 namespace HBD.PulumiNet.Share.AzAd;
 
 /// <summary>
@@ -17,7 +14,7 @@ public static class AppRegister
         AzResourceInfo? VaultInfo = null,
         Input<string>? HomepageUrl = null,
         Input<string>? LogoutUrl = null,
-        InputList<string> Owners = null,
+        InputList<string>? Owners = null,
         bool AllowImplicit = false, 
         bool AllowMultiOrg = false, 
         InputList<ApplicationAppRoleArgs>? AppRoles = null,
@@ -39,7 +36,7 @@ public static class AppRegister
         {
             DisplayName = name,
             Owners = args.Owners,
-            AppRoles = args.AppRoles ?? new InputList<ApplicationAppRoleArgs>(),
+            AppRoles = args.AppRoles ?? [],
             SignInAudience = args.AllowMultiOrg ? "AzureADMultipleOrgs" : "AzureADMyOrg",
             GroupMembershipClaims = "SecurityGroup",
         };
@@ -48,14 +45,14 @@ public static class AppRegister
         {
             //SPA
             parameters.SinglePageApplication = new ApplicationSinglePageApplicationArgs
-                {RedirectUris = args.RedirectUris ?? new InputList<string>()};
+                {RedirectUris = args.RedirectUris ?? [] };
             //Web
             parameters.Web = new ApplicationWebArgs
             {
                 HomepageUrl = args.HomepageUrl,
                 ImplicitGrant = new ApplicationWebImplicitGrantArgs
                     {AccessTokenIssuanceEnabled = true, IdTokenIssuanceEnabled = true},
-                RedirectUris = args.RedirectUris ?? new InputList<string>(),
+                RedirectUris = args.RedirectUris ?? [],
                 LogoutUrl = args.LogoutUrl
             };
         }
@@ -65,7 +62,7 @@ public static class AppRegister
             {
                 RequestedAccessTokenVersion = 2,
                 Oauth2PermissionScopes = args.Oauth2PermissionScopes ??
-                                         new InputList<ApplicationApiOauth2PermissionScopeArgs>()
+                                         []
             };
         }
 

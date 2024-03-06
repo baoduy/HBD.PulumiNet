@@ -1,16 +1,17 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <LangVersion>default</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Pulumi.AzureAD" Version="5.34.0" />
-      <PackageReference Include="Pulumi.AzureNative" Version="1.92.0" />
-      <PackageReference Include="Pulumi.Random" Version="4.8.2" />
-      <PackageReference Include="Refit" Version="6.3.2" />
+      <PackageReference Include="Pulumi.AzureAD" Version="5.47.2" />
+      <PackageReference Include="Pulumi.AzureNative" Version="2.30.0" />
+      <PackageReference Include="Pulumi.Random" Version="4.16.0" />
+      <PackageReference Include="Refit" Version="7.0.0" />
     </ItemGroup>
 
 </Project>

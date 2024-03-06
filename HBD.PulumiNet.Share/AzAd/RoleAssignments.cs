@@ -1,6 +1,4 @@
-using HBD.PulumiNet.Share.Common;
 using HBD.PulumiNet.Share.Refits;
-using Pulumi;
 using Pulumi.AzureNative.Authorization;
 
 namespace HBD.PulumiNet.Share.AzAd;
@@ -36,6 +34,6 @@ public static class RoleAssignments
                 PrincipalType = args.PrincipalType,
                 RoleDefinitionId = role.Id,
                 Scope = scope,
-            }, new CustomResourceOptions { DependsOn = args.DependsOn ?? new InputList<Resource>() });
+            }, new CustomResourceOptions { DependsOn = args.DependsOn ?? [] });
     }
 }

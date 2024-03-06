@@ -1,6 +1,3 @@
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.KeyVault;
 using Pulumi.AzureNative.KeyVault.Inputs;
@@ -32,9 +29,9 @@ public static class VaultCreator
         //Grant Access permission
         if (!args.EnableRbac)
         {
-            if (args.Permissions.Count <= 0)
-                args.Permissions.Add(new PermissionsArgs(AzureEnv.CurrentServicePrincipal, PrincipalType.ServicePrincipal, 
-                    Permissions.Type.ReadWrite));
+            // if (args.Permissions.Count <= 0)
+            //     args.Permissions.Add(new PermissionsArgs(AzureEnv.CurrentServicePrincipal, PrincipalType.ServicePrincipal, 
+            //         Permissions.Type.ReadWrite));
 
             foreach (var p in args.Permissions)
             {

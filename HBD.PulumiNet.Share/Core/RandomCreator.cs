@@ -1,8 +1,4 @@
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.CustomResources;
 using HBD.PulumiNet.Share.CustomResources.Ssh;
-using HBD.PulumiNet.Share.Types;
-using Pulumi;
 using Pulumi.Random;
 
 namespace HBD.PulumiNet.Share.Core;
@@ -40,7 +36,7 @@ public static class RandomCreator
 
         return new RandomPassword(name, new RandomPasswordArgs
         {
-            Keepers = new InputMap<object> { { "keepKey", keepKey } },
+            Keepers = new InputMap<string> { { "keepKey", keepKey } },
             Length = args.Length,
             Lower = options.LowerCase,
             MinLower = 4,
@@ -74,7 +70,7 @@ public static class RandomCreator
         options ??= new RandomOptions();
         return new RandomString(name, new RandomStringArgs
         {
-            Keepers = new InputMap<object> { { "length", length } },
+            Keepers = new InputMap<string> { { "length", length.ToString() } },
             Length = length,
             Lower = options.LowerCase,
             //MinLower = options.LowerCase ? 1 : 0,

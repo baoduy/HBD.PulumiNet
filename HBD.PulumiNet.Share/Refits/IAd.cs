@@ -1,4 +1,3 @@
-using HBD.PulumiNet.Share.Types;
 using Refit;
 
 namespace HBD.PulumiNet.Share.Refits;

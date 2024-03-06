@@ -1,5 +1,4 @@
 using HBD.PulumiNet.Share.AzAd;
-using Pulumi;
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.KeyVault;
 using Pulumi.AzureNative.KeyVault.Inputs;
@@ -10,18 +9,22 @@ public static class Permissions
 {
     public static readonly PermissionsArgs KeyVaultAdminPolicy = new()
     {
-        Certificates = new InputList<Union<string, CertificatePermissions>> {CertificatePermissions.All},
-        Keys = new InputList<Union<string, KeyPermissions>>{KeyPermissions.All},
-        Secrets = new InputList<Union<string, SecretPermissions>>{SecretPermissions.All},
-        Storage = new InputList<Union<string, StoragePermissions>>{StoragePermissions.All}
+        Certificates = [CertificatePermissions.All],
+        Keys = [KeyPermissions.All],
+        Secrets = [SecretPermissions.All],
+        Storage = [StoragePermissions.All]
     };
     
     public static readonly PermissionsArgs KeyVaultReadOnlyPolicy = new()
     {
-        Certificates = new InputList<Union<string, CertificatePermissions>> {CertificatePermissions.Get,CertificatePermissions.List},
-        Keys = new InputList<Union<string, KeyPermissions>>{KeyPermissions.Get,KeyPermissions.List,KeyPermissions.Decrypt,KeyPermissions.Encrypt,KeyPermissions.Sign,KeyPermissions.UnwrapKey,KeyPermissions.Verify,KeyPermissions.WrapKey},
-        Secrets = new InputList<Union<string, SecretPermissions>>{SecretPermissions.Get,SecretPermissions.List},
-        Storage = new InputList<Union<string, StoragePermissions>>{StoragePermissions.Get,StoragePermissions.List}
+        Certificates = [CertificatePermissions.Get, CertificatePermissions.List],
+        Keys =
+        [
+            KeyPermissions.Get, KeyPermissions.List, KeyPermissions.Decrypt, KeyPermissions.Encrypt,
+            KeyPermissions.Sign, KeyPermissions.UnwrapKey, KeyPermissions.Verify, KeyPermissions.WrapKey
+        ],
+        Secrets = [SecretPermissions.Get, SecretPermissions.List],
+        Storage = [StoragePermissions.Get, StoragePermissions.List]
     };
     
     public enum Type

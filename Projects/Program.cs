@@ -3,12 +3,13 @@ using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Pulumi;
+using static System.Boolean;
 
 internal class Program
 {
     private static Task<int> Main()
     {
-        bool.TryParse(Environment.GetEnvironmentVariable("PULUMI_DEBUG"), out var debug);
+        TryParse(Environment.GetEnvironmentVariable("PULUMI_DEBUG"), out var debug);
         
         if (debug)
         {

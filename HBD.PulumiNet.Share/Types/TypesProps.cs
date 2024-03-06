@@ -1,25 +1,22 @@
-using HBD.PulumiNet.Share.Common;
-using Pulumi; 
+
+
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
 namespace HBD.PulumiNet.Share.Types;
 
-public record BasicArgs
+public record BasicArgs(string Name,ResourceGroupInfo Group)
 {
-    public string Name { get; init; }
-    public ResourceGroupInfo Group{ get; set; }
     public bool Lock { get; set; }
 }
 
-
-public record ConventionArgs(string? Prefix = null, string? Suffix = null );
+public record ConventionArgs(string? Prefix = null, string? Suffix = null);
 
 public record ResourceGroupInfo
 {
     public ResourceGroupInfo(string resourceGroupName, Input<string>? location = null)
     {
         ResourceGroupName = resourceGroupName;
-        Location = location ?? AzureEnv.DefaultLocation;
+        Location = location ?? AzureEnv.CurrentLocation;
     }
 
     public string ResourceGroupName { get; }
@@ -35,11 +32,11 @@ public class AzResult<TResult> where TResult : class
 
 public class AzureResourceItem
 {
-    public string Id { get; set; }= null!;
-    public string Name { get; set; }= null!;
-    public string Location { get; set; }= null!;
-    public string ResourceGroupName { get;internal set; }= null!;
-    
+    public string Id { get; set; } = null!;
+    public string Name { get; set; } = null!;
+    public string Location { get; set; } = null!;
+    public string ResourceGroupName { get; internal set; } = null!;
+
     public Dictionary<string, string> Tags { get; set; } = new();
 }
 

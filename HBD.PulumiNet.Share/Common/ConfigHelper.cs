@@ -1,5 +1,3 @@
-using Pulumi;
-
 namespace HBD.PulumiNet.Share.Common;
 
 /// <summary>

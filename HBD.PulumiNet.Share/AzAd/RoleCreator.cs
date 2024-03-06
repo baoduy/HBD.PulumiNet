@@ -1,5 +1,3 @@
-using HBD.PulumiNet.Share.Common;
-using Pulumi;
 using Pulumi.AzureAD;
 
 namespace HBD.PulumiNet.Share.AzAd;

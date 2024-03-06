@@ -8,12 +8,10 @@ public static class Stack
 {
     public static async Task<Dictionary<string, object?>> RunAsync()
     {
-        var resourceGroup = RgCreator.Create(new RgCreator.Args("drunkcoding")).Info();
+        var resourceGroup = RgCreator.Create(new RgCreator.Args("drunk-test")).Info();
 
         var vault = await VaultCreator.Create(new VaultCreator.Args("vault", resourceGroup,
-            new List<VaultCreator.PermissionsArgs>()));
-
-        var app = AppRegister.Create(new AppRegister.Args("Test-Drunk", VaultInfo: vault.info));
+            []));
 
         return new Dictionary<string, object?>();
     }
