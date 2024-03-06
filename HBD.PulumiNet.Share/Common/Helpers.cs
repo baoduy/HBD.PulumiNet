@@ -1,3 +1,4 @@
+using System.Text;
 using HBD.PulumiNet.Share.Refits;
 
 namespace HBD.PulumiNet.Share.Common;
@@ -13,7 +14,7 @@ public static class Helpers
     /// <param name="value"></param>
     /// <returns></returns>
     public static string ToBase64(this string value)
-        => Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(value));
+        => Convert.ToBase64String(Encoding.UTF8.GetBytes(value));
 
     /// <summary>
     /// Convert Base64 to String
@@ -21,7 +22,7 @@ public static class Helpers
     /// <param name="value"></param>
     /// <returns></returns>
     public static string FromBase64(this string value)
-        => System.Text.Encoding.UTF8.GetString((Convert.FromBase64String(value)));
+        => Encoding.UTF8.GetString((Convert.FromBase64String(value)));
 
     /// <summary>
     /// Get Domain or Sub-Domain name from url. ex https://app.drunkcoding.net => app.drunkcoding.net

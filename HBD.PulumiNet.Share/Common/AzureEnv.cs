@@ -3,6 +3,7 @@
 // ReSharper disable UnusedMember.Global
 
 using System.Text.Json;
+using Pulumi.AzureNative.Authorization;
 
 namespace HBD.PulumiNet.Share.Common;
 
@@ -39,7 +40,7 @@ public static class AzureEnv
 
     static AzureEnv()
     {
-        var config = Pulumi.AzureNative.Authorization.GetClientConfig.Invoke();
+        var config = GetClientConfig.Invoke();
 
         TenantId = config.Apply(c => c.TenantId);
         SubscriptionId = config.Apply(c => c.SubscriptionId);

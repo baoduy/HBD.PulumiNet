@@ -1,4 +1,3 @@
-using HBD.PulumiNet.Share.CustomResources.Ssh;
 using Pulumi.Random;
 
 namespace HBD.PulumiNet.Share.Core;
@@ -110,19 +109,19 @@ public static class RandomCreator
     /// </summary>
     /// <param name="args"></param>
     /// <returns></returns>
-    public static SshGeneration.Result RandomSsh (SshArgs args)
-    {
-        var name = args.Name.GetSshName();
-        var rs= SshGeneration.Creator(new SshGeneration.Args(name));
-
-        if (args.VaultInfo!=null)
-        {
-            var publicKeyName = $"{args.Name}-publicKey";
-            var privateKeyName = $"{args.Name}-privateKey";
-            
-            
-        }
-
-        return rs;
-    }
+    // public static SshGeneration.Result RandomSsh (SshArgs args)
+    // {
+    //     var name = args.Name.GetSshName();
+    //     var rs= SshGeneration.Creator(new SshGeneration.Args(name));
+    //
+    //     if (args.VaultInfo!=null)
+    //     {
+    //         var publicKeyName = $"{args.Name}-publicKey";
+    //         var privateKeyName = $"{args.Name}-privateKey";
+    //
+    //
+    //     }
+    //
+    //     return rs;
+    // }
 }

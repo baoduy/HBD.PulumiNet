@@ -17,7 +17,7 @@ public static class Helpers
         var resourceId = resource.Id;
 
         var _ = new ManagementLockByScope(name,
-            new ManagementLockByScopeArgs()
+            new ManagementLockByScopeArgs
             {
                 LockName = name,
                 Level = level,

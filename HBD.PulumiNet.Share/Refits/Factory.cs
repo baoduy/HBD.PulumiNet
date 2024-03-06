@@ -1,3 +1,6 @@
+using Pulumi.AzureNative.Authorization;
+using Refit;
+
 namespace HBD.PulumiNet.Share.Refits;
 
 public static class Factory
@@ -8,8 +11,8 @@ public static class Factory
     {
         if (_client != null) return _client;
 
-        var info = await Pulumi.AzureNative.Authorization.GetClientConfig.InvokeAsync();
-        var token = await Pulumi.AzureNative.Authorization.GetClientToken.InvokeAsync();
+        var info = await GetClientConfig.InvokeAsync();
+        var token = await GetClientToken.InvokeAsync();
 
         _client = new HttpClient();
         _client.BaseAddress = new Uri($"https://management.azure.com/subscriptions/{info.SubscriptionId}");
@@ -19,5 +22,5 @@ public static class Factory
     }
 
     public static async Task<T> Create<T>() 
-        => Refit.RestService.For<T>(await GetOrCreateHttpClient());
+        => RestService.For<T>(await GetOrCreateHttpClient());
 }

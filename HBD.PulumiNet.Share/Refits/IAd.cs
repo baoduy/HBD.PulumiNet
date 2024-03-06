@@ -15,7 +15,7 @@ public class RoleDefinitionResult
     public string Id { get; set; }= null!;
     //public string? Type { get; set; }
     //public RoleDefinitionProperties Properties { get; set; } = new ();
-};
+}
 
 public interface IAzureAd
 {

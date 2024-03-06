@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HBD.PulumiNet.Providers\HBD.PulumiNet.Providers.csproj" />
     <ProjectReference Include="..\HBD.PulumiNet.Share\HBD.PulumiNet.Share.csproj" />
   </ItemGroup>
 

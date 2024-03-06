@@ -12,6 +12,7 @@
       <PackageReference Include="Pulumi.AzureNative" Version="2.30.0" />
       <PackageReference Include="Pulumi.Random" Version="4.16.0" />
       <PackageReference Include="Refit" Version="7.0.0" />
+      <PackageReference Include="SshKeyGenerator" Version="1.1.51" />
     </ItemGroup>
 
 </Project>

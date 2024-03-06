@@ -1,6 +1,7 @@
 using Pulumi.AzureNative.Authorization;
 using Pulumi.AzureNative.KeyVault;
 using Pulumi.AzureNative.KeyVault.Inputs;
+using Helpers = HBD.PulumiNet.Share.Core.Helpers;
 
 // ReSharper disable CollectionNeverUpdated.Global
 
@@ -86,8 +87,8 @@ public static class VaultCreator
         return (vault,info);
     }
 
-    public static Vault EnableDiagnostic(this Vault vault, Core.Helpers.LogDestinationArgs destination) 
-        => Core.Helpers.EnableDiagnostic(vault, destination, logs: new[] {"AuditEvent"});
+    public static Vault EnableDiagnostic(this Vault vault, Helpers.LogDestinationArgs destination)
+        => Helpers.EnableDiagnostic(vault, destination, logs: new[] {"AuditEvent"});
     
     //public static Vault EnablePrivateLink(this Vault vault,)
 }

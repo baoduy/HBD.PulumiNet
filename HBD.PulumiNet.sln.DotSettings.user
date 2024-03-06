@@ -4,4 +4,5 @@
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=03a65e69_002D7809_002D4b10_002D837a_002Dd6909c45b0a6/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="CommonTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
   &lt;Project Location="/Volumes/VMs_2T/_STADIOS/HBD.PulumiNet/HBD.PulumiNet.Share.Tests" Presentation="&amp;lt;zzTests&amp;gt;\&amp;lt;HBD.PulumiNet.Share.Tests&amp;gt;" /&gt;
-&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
+&lt;/SessionState&gt;</s:String>
+	</wpf:ResourceDictionary>
