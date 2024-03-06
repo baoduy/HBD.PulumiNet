@@ -8,9 +8,9 @@ public static class Stack
 {
     public static async Task<Dictionary<string, object?>> RunAsync()
     {
-        var resourceGroup = RgCreator.Create(new RgCreator.Args("drunk-test")).Info();
+        var resourceGroup = RgCreator.Create(new RgCreator.Args("test")).Info();
 
-        var vault = await VaultCreator.Create(new VaultCreator.Args("vault", resourceGroup,
+        var vault = await VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
             []));
 
         return new Dictionary<string, object?>();
