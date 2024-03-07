@@ -2,13 +2,26 @@ using Ibasa.Pulumi.Dynamic;
 using Pulumi;
 using Pulumi.Experimental.Provider;
 
-namespace HBD.PulumiNet.Providers.Ssh;
+namespace HBD.PulumiNet.Providers;
 
 public sealed class SshArgs : DynamicResourceArgs
 {
-};
+    public string? Email { get; init; }
+}
 
-public sealed class SshProvider : DynamicProvider
+internal class SshKey
+{
+    public (string publicKey, string privateKey) Generate()
+    {
+        var keygen = new SshKeyGenerator.SshKeyGenerator(2048);
+
+        var privateKey = keygen.ToPrivateKey();
+        var publicKey = keygen.ToRfcPublicKey();
+        return (publicKey, privateKey);
+    }
+}
+
+internal sealed class SshProvider : DynamicProvider
 {
     // public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
     //     => Task.FromResult(new CheckResponse { Inputs = request.NewInputs });
@@ -36,22 +49,14 @@ public sealed class SshProvider : DynamicProvider
     //     });
     // }
 
-    // private static (string publicKey, string privateKey) GenerateSsh()
-    // {
-    //     var keygen = new SshKeyGenerator.SshKeyGenerator(2048);
-    //
-    //     var privateKey = keygen.ToPrivateKey();
-    //     var publicKey = keygen.ToRfcPublicKey();
-    //
-    //     return (publicKey, privateKey);
-    // }
-
     public override Task<CreateResponse> Create(CreateRequest request, CancellationToken cancellationToken)
     {
+        var (publicKey,privateKey) = new SshKey().Generate();
+
         return Task.FromResult(new CreateResponse
         {
             Id = Guid.NewGuid().ToString(),
-            Properties = new Dictionary<string, PropertyValue> { ["publicKey"] = new("123"), ["privateKey"] = new("456") }
+            Properties = new Dictionary<string, PropertyValue> { ["publicKey"] = new(publicKey), ["privateKey"] = new(privateKey) }
         });
     }
 

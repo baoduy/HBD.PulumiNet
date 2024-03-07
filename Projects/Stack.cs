@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HBD.PulumiNet.Providers.Ssh;
+using HBD.PulumiNet.Providers;
 using HBD.PulumiNet.Share.Core;
 using HBD.PulumiNet.Share.KeyVaults;
 
@@ -14,7 +14,7 @@ public static class Stack
         var vault = await VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
             []));
 
-        var ssh  = new SshProviderResource("ssh", new SshArgs());
+        var ssh  = new SshProviderResource("ssh-ask", new SshArgs());
 
         ssh.PublicKey.Apply(s =>
         {
