@@ -21,6 +21,7 @@ public static class Stack
              Console.WriteLine(s);
              return string.Empty;
         });
+        
         return new Dictionary<string, object?>();
     }
 }
