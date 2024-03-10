@@ -9,18 +9,6 @@ public sealed class SshArgs : DynamicResourceArgs
     public string? Email { get; init; }
 }
 
-internal class SshKey
-{
-    public (string publicKey, string privateKey) Generate()
-    {
-        var keygen = new SshKeyGenerator.SshKeyGenerator(2048);
-
-        var privateKey = keygen.ToPrivateKey();
-        var publicKey = keygen.ToRfcPublicKey();
-        return (publicKey, privateKey);
-    }
-}
-
 internal sealed class SshProvider : DynamicProvider
 {
     // public override Task<CheckResponse> CheckConfig(CheckRequest request, CancellationToken ct)
@@ -51,7 +39,10 @@ internal sealed class SshProvider : DynamicProvider
 
     public override Task<CreateResponse> Create(CreateRequest request, CancellationToken cancellationToken)
     {
-        var (publicKey,privateKey) = new SshKey().Generate();
+        var keygen = new SshKeyGenerator.SshKeyGenerator(2048);
+
+        var privateKey = keygen.ToPrivateKey();
+        var publicKey = keygen.ToRfcPublicKey();
 
         return Task.FromResult(new CreateResponse
         {
