@@ -1,6 +1,6 @@
 using FluentAssertions;
-using HBD.PulumiNet.Share.Common;
-using HBD.PulumiNet.Share.Types;
+using HBD.PulumiNet.Common;
+using HBD.PulumiNet.Types;
 using Xunit;
 
 namespace HBD.PulumiNet.Share.Tests.Common;

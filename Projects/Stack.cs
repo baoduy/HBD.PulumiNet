@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using HBD.PulumiNet.Providers;
-using HBD.PulumiNet.Share.Core;
-using HBD.PulumiNet.Share.KeyVaults;
+using HBD.PulumiNet.Core;
+using HBD.PulumiNet.KeyVaults;
+using Pulumi.AzureNative.Portal;
+using Console = System.Console;
 
 public static class Stack
 {
@@ -14,13 +14,8 @@ public static class Stack
         var vault = await VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
             []));
 
-        var ssh  = new SshProviderResource("ssh-ask", new SshArgs());
+        Console.WriteLine(await HBD.PulumiNet.AzNative.KeyVaults.Helper.IsSecretExists("Steven", vault.info));
 
-        ssh.PublicKey.Apply(s =>
-        {
-             Console.WriteLine(s);
-             return string.Empty;
-        });
         return new Dictionary<string, object?>();
     }
 }

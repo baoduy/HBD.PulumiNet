@@ -1,5 +1,5 @@
 using FluentAssertions;
-using HBD.PulumiNet.Share.Common;
+using HBD.PulumiNet.Common;
 using Xunit;
 
 namespace HBD.PulumiNet.Share.Tests.Common;

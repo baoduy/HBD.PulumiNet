@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBD.PulumiNet.Share", "HBD.PulumiNet.Share\HBD.PulumiNet.Share.csproj", "{407515BD-3500-4141-A81D-E5CF7A646CA5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBD.PulumiNet", "HBD.PulumiNet\HBD.PulumiNet.csproj", "{407515BD-3500-4141-A81D-E5CF7A646CA5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zzTests", "zzTests", "{4DD90D94-5CF2-4C9E-89A9-67747E5B3AB2}"
 EndProject

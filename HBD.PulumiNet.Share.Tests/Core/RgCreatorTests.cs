@@ -1,13 +1,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
-using HBD.PulumiNet.Share.Core;
-using HBD.PulumiNet.Share.Tests.Stacks;
+using HBD.PulumiNet.Core;
 using Pulumi;
 using Pulumi.AzureNative.Resources;
 using Xunit;
 
-namespace HBD.PulumiNet.Share.Tests.AzAd;
+namespace HBD.PulumiNet.Share.Tests.Core;
 
 public class RgCreatorTests
 {

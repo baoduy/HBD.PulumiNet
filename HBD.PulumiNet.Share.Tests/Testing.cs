@@ -4,7 +4,7 @@ using Moq;
 using Pulumi;
 using Pulumi.Testing;
 
-namespace HBD.PulumiNet.Share.Tests.Stacks;
+namespace HBD.PulumiNet.Share.Tests;
 
 public static class Testing
 {
