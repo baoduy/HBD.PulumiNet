@@ -7,7 +7,7 @@ using Pulumi;
 using Pulumi.AzureAD;
 using Xunit;
 
-namespace HBD.PulumiNet.Share.Tests.AzAd;
+namespace HBD.PulumiNet.Tests.AzAd;
 
 public class RoleCreatorTests
 {

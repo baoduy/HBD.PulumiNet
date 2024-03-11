@@ -3,7 +3,7 @@ using HBD.PulumiNet.Common;
 using HBD.PulumiNet.Types;
 using Xunit;
 
-namespace HBD.PulumiNet.Share.Tests.Common;
+namespace HBD.PulumiNet.Tests.Common;
 
 public class ResourceEnvTests
 {

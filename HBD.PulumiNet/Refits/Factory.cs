@@ -11,8 +11,8 @@ public static class Factory
     {
         if (_client != null) return _client;
 
-        var info = await GetClientConfig.InvokeAsync();
-        var token = await GetClientToken.InvokeAsync();
+        var info = await GetClientConfig.InvokeAsync().ConfigureAwait(false);
+        var token = await GetClientToken.InvokeAsync().ConfigureAwait(false);
 
         _client = new HttpClient();
         _client.BaseAddress = new Uri($"https://management.azure.com/subscriptions/{info.SubscriptionId}");
@@ -22,5 +22,5 @@ public static class Factory
     }
 
     public static async Task<T> Create<T>() 
-        => RestService.For<T>(await GetOrCreateHttpClient());
+        => RestService.For<T>(await GetOrCreateHttpClient().ConfigureAwait(false));
 }

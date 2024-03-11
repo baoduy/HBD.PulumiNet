@@ -41,15 +41,15 @@ public static class Permissions
         //ReadOnly
         if (args.Permission == Type.ReadOnly)
         {
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-encrypt","Key Vault Crypto Service Encryption User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto","Key Vault Crypto User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret","Key Vault Secrets User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-encrypt","Key Vault Crypto Service Encryption User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto","Key Vault Crypto User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret","Key Vault Secrets User",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
             
             //Read and Write
         } else {
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-cert","Key Vault Certificates Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto","Key Vault Crypto Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
-            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret","Key Vault Secrets Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault));
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-cert","Key Vault Certificates Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto","Key Vault Crypto Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
+            await RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret","Key Vault Secrets Officer",args.PrincipalId,args.PrincipalType,args.Vault.Id,args.Vault)).ConfigureAwait(false);
         }
     }
 }

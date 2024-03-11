@@ -2,7 +2,7 @@ using FluentAssertions;
 using HBD.PulumiNet.Common;
 using Xunit;
 
-namespace HBD.PulumiNet.Share.Tests.Common;
+namespace HBD.PulumiNet.Tests.Common;
 
 public class HelperTests
 {

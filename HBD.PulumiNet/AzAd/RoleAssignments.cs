@@ -10,8 +10,8 @@ public static class RoleAssignments
 {
     public static async Task<RoleDefinitionResult> GetRoleDefinitionByName(string roleName)
     {
-        var client = await Factory.Create<IAzureAd>();
-        var rs = await client.GetRoleDefinitionAsync(roleName);
+        var client = await Factory.Create<IAzureAd>().ConfigureAwait(false);
+        var rs = await client.GetRoleDefinitionAsync(roleName).ConfigureAwait(false);
 
         var role = rs.Value.FirstOrDefault();
         if (role == null) throw new Exception($"Role {roleName} not found");
@@ -24,7 +24,7 @@ public static class RoleAssignments
     public static async Task<RoleAssignment> Create(Args args)
     {
         var scope = args.Scope ?? AzureEnv.DefaultScope;
-        var role = await GetRoleDefinitionByName(args.RoleName);
+        var role = await GetRoleDefinitionByName(args.RoleName).ConfigureAwait(false);
 
         return new RoleAssignment(
             $"{args.Name}-{args.RoleName.Replace(" ", string.Empty)}",

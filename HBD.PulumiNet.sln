@@ -4,7 +4,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBD.PulumiNet", "HBD.Pulumi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zzTests", "zzTests", "{4DD90D94-5CF2-4C9E-89A9-67747E5B3AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBD.PulumiNet.Share.Tests", "HBD.PulumiNet.Share.Tests\HBD.PulumiNet.Share.Tests.csproj", "{FFCD0924-9C54-49A1-9E6C-54F4A407DAD8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HBD.PulumiNet.Tests", "HBD.PulumiNet.Tests\HBD.PulumiNet.Tests.csproj", "{FFCD0924-9C54-49A1-9E6C-54F4A407DAD8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zzSamples", "zzSamples", "{F91FEA74-CD39-48CC-B5F6-316FE0E0ED4F}"
 EndProject

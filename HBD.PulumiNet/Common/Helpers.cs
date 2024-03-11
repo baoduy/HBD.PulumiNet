@@ -52,8 +52,8 @@ public static class Helpers
     {
         try
         {
-            var client = await Factory.Create<INetworkSecurityGroup>();
-            var rs = await client.GetAsync(group);
+            var client = await Factory.Create<INetworkSecurityGroup>().ConfigureAwait(false);
+            var rs = await client.GetAsync(group).ConfigureAwait(false);
 
             return rs.Value.Select(i =>
             {
@@ -63,7 +63,7 @@ public static class Helpers
         }
         catch (Exception ex)
         {
-            await Console.Error.WriteAsync("FindNetworkSecurityGroups: " + ex.Message);
+            await Console.Error.WriteAsync("FindNetworkSecurityGroups: " + ex.Message).ConfigureAwait(false);
             return Enumerable.Empty<AzureResourceItem>();
         }
     }
@@ -72,8 +72,8 @@ public static class Helpers
     {
         try
         {
-            var client = await Factory.Create<IVirtualMachineScaleSets>();
-            var rs = await client.GetAsync(group);
+            var client = await Factory.Create<IVirtualMachineScaleSets>().ConfigureAwait(false);
+            var rs = await client.GetAsync(group).ConfigureAwait(false);
 
             return rs.Value.Select(i =>
             {
@@ -83,7 +83,7 @@ public static class Helpers
         }
         catch (Exception ex)
         {
-            await Console.Error.WriteAsync("FindVmScaleSets: " + ex.Message);
+            await Console.Error.WriteAsync("FindVmScaleSets: " + ex.Message).ConfigureAwait(false);
             return Enumerable.Empty<AzureResourceItem>();
         }
     }

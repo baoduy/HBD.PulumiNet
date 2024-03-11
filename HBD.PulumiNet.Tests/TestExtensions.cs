@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Pulumi;
 
-namespace HBD.PulumiNet.Share.Tests;
+namespace HBD.PulumiNet.Tests;
 
 public static class TestExtensions
 {

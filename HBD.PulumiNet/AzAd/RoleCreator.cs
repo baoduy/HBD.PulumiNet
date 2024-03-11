@@ -12,13 +12,17 @@ public static class RoleCreator
         Input<string>[]? Members = default,
         GroupCreator.GroupPermissionArgs[]? Permissions = null);
 
-    public static Task<Group> Create(Args args)
+    public static string GetRoleName(Args args)
     {
         var e = args.Env == Environments.Prd ? "prod" : "non-prd";
 
-        var name = string.IsNullOrEmpty(args.ModuleName)
+        return string.IsNullOrEmpty(args.ModuleName)
             ? $"ROL {e} {args.Location} {args.AppName} {args.Name}"
             : $"ROL {e} {args.Location} {args.AppName}.{args.ModuleName} {args.Name}";
+    }
+    public static Task<Group> Create(Args args)
+    {
+        var name = GetRoleName(args);
 
         return GroupCreator.Create(new GroupCreator.Args(name,
             Members: args.Members,

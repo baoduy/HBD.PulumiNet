@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Moq;
 using Pulumi;
 using Pulumi.Testing;
 
-namespace HBD.PulumiNet.Share.Tests;
+namespace HBD.PulumiNet.Tests;
 
 public static class Testing
 {
@@ -18,6 +19,11 @@ public static class Testing
         mocks.Setup(m => m.CallAsync(It.IsAny<MockCallArgs>()))
             .ReturnsAsync((MockCallArgs args) => args.Args);
 
+        Environment.SetEnvironmentVariable("PULUMI_DRY_RUN","false");
+        Environment.SetEnvironmentVariable("PULUMI_ORGANIZATION","TestOrganization");
+        Environment.SetEnvironmentVariable("PULUMI_PROJECT","TestProject");
+        Environment.SetEnvironmentVariable("PULUMI_STACK","TestStack");
+        
         return Deployment.TestAsync<T>(mocks.Object, new TestOptions
         {
             IsPreview = false,

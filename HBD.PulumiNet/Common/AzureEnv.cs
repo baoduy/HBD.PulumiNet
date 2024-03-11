@@ -36,7 +36,11 @@ public static class AzureEnv
     public static readonly bool IsDev;
     public static readonly bool IsSandbox;
     public static readonly bool IsPrd;
-    public static readonly Environments CurrentEnv;
+
+    public static Environments CurrentEnv => 
+        IsDev ? Environments.Dev :
+        IsSandbox ? Environments.Sandbox :
+        IsPrd ? Environments.Prd : Environments.Global;
 
     static AzureEnv()
     {
@@ -53,7 +57,6 @@ public static class AzureEnv
         IsDev = IsEnv(Environments.Dev);
         IsPrd = IsEnv(Environments.Prd);
         IsSandbox = IsEnv(Environments.Sandbox);
-        CurrentEnv = GetCurrentEnv();
 
         //Print console
         Output.Format(
@@ -66,14 +69,7 @@ public static class AzureEnv
     }
 
     public static bool IsEnv(Environments env) => StackEnv.StackName.Contains(env.ToString().ToLower());
-
-    public static Environments GetCurrentEnv()
-    {
-        if (IsPrd) return Environments.Prd;
-        if (IsSandbox) return Environments.Sandbox;
-        return IsDev ? Environments.Dev : Environments.Global;
-    }
-
+    
     /// <summary>
     /// Get Key Vault Info
     /// </summary>

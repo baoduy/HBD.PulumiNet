@@ -10,7 +10,8 @@ public class GroupCreator
 {
     public record GroupPermissionArgs(string RoleName, Input<string>? Scope = null);
 
-    public record Args(string Name,
+    public record Args(
+        string Name,
         InputList<string> Owners = null,
         Input<string>[]? Members = default,
         GroupPermissionArgs[]? Permissions = null);
@@ -27,7 +28,7 @@ public class GroupCreator
             var count = 1;
             foreach (var m in args.Members)
             {
-                var _ = new GroupMember($"{args.Name}-member-{count++}",
+                _ = new GroupMember($"{args.Name}-member-{count++}",
                     new GroupMemberArgs { GroupObjectId = group.ObjectId, MemberObjectId = m });
             }
         }
@@ -37,7 +38,7 @@ public class GroupCreator
             foreach (var p in args.Permissions)
             {
                 await RoleAssignments.Create(new RoleAssignments.Args(args.Name, p.RoleName, group.ObjectId,
-                    PrincipalType.Group, Scope: p.Scope, DependsOn: group));
+                    PrincipalType.Group, Scope: p.Scope, DependsOn: group)).ConfigureAwait(false);
             }
         }
 

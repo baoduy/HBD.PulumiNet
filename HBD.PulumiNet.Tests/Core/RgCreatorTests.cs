@@ -6,7 +6,7 @@ using Pulumi;
 using Pulumi.AzureNative.Resources;
 using Xunit;
 
-namespace HBD.PulumiNet.Share.Tests.Core;
+namespace HBD.PulumiNet.Tests.Core;
 
 public class RgCreatorTests
 {

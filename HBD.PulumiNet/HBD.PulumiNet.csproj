@@ -18,4 +18,11 @@
       <PackageReference Include="SshKeyGenerator" Version="1.1.51" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="AzAd\RolesBuiltIn.json" />
+      <EmbeddedResource Include="AzAd\RolesBuiltIn.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </EmbeddedResource>
+    </ItemGroup>
+
 </Project>

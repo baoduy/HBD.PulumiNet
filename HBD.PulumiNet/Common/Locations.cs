@@ -13,8 +13,8 @@ public static class Locations
     {
         if (_locationCache != null) return _locationCache;
 
-        var api = await Factory.Create<ILocationApi>();
-        var result = await api.GetAsync();
+        var api = await Factory.Create<ILocationApi>().ConfigureAwait(false);
+        var result = await api.GetAsync().ConfigureAwait(false);
         _locationCache = result.Value;
 
         return _locationCache;
@@ -22,7 +22,7 @@ public static class Locations
 
     public static async Task<string> GetLocationString(string possibleName)
     {
-        var locations = await GetAllLocationsAsync();
+        var locations = await GetAllLocationsAsync().ConfigureAwait(false);
         var location = locations.FirstOrDefault(
             l => string.Equals(l.Name, possibleName, StringComparison.OrdinalIgnoreCase));
 

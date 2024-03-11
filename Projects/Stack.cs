@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using HBD.PulumiNet.AzAd;
 using HBD.PulumiNet.Core;
 using HBD.PulumiNet.KeyVaults;
 using Console = System.Console;
@@ -13,7 +14,8 @@ public static class Stack
         var vault = await VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
             []));
 
-        Console.WriteLine(await HBD.PulumiNet.AzNative.KeyVaults.Helper.IsSecretExists("Steven", vault.info));
+        Console.WriteLine(RolesBuiltIn.Find("Reader")?.Id??"Notfound");
+        // Console.WriteLine(await HBD.PulumiNet.AzNative.KeyVaults.Helper.IsSecretExists("Steven", vault.info));
 
         return new Dictionary<string, object?>();
     }
