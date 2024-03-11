@@ -28,7 +28,7 @@ public static class VaultCreator
         ConventionArgs? Convention = default,
         VaultNetwork? Network = default);
 
-    public static async Task<(Vault vault, AzResourceInfo info)> Create(Args args)
+    public static (Vault vault, AzResourceInfo info) Create(Args args)
     {
         //Always enable RBAC
         const bool enableRbac = true;
@@ -91,9 +91,9 @@ public static class VaultCreator
         //Grant RBAC permission
         if (enableRbac)
         {
-            foreach (var p in args.Permissions)
-                await Permissions.GrantVaultRbacPermission(new Permissions.Args(name, p.PrincipalId, p.PrincipalType,
-                    p.Permission, vault)).ConfigureAwait(false);
+            foreach (var p in args.Permissions) 
+                Permissions.GrantVaultRbacPermission(new Permissions.Args(name, p.PrincipalId, p.PrincipalType,
+                    p.Permission, vault));
         }
 
         var info = new AzResourceInfo(name, args.Group, vault.Id);

@@ -11,7 +11,7 @@ public static class Stack
     {
         var resourceGroup = RgCreator.Create(new RgCreator.Args("test")).Info();
 
-        var vault = await VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
+        var vault = VaultCreator.Create(new VaultCreator.Args("test-vault", resourceGroup,
             []));
 
         Console.WriteLine(RolesBuiltIn.Find("Reader")?.Id??"Notfound");

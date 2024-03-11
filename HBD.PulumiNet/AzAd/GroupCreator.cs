@@ -37,8 +37,8 @@ public class GroupCreator
         {
             foreach (var p in args.Permissions)
             {
-                await RoleAssignments.Create(new RoleAssignments.Args(args.Name, p.RoleName, group.ObjectId,
-                    PrincipalType.Group, Scope: p.Scope, DependsOn: group)).ConfigureAwait(false);
+                RoleAssignments.Create(new RoleAssignments.Args(args.Name, p.RoleName, group.ObjectId,
+                    PrincipalType.Group, Scope: p.Scope, DependsOn: group));
             }
         }
 
