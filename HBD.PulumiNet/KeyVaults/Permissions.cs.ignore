@@ -47,22 +47,22 @@ public static class Permissions
         //ReadOnly
         if (args.Permission == Type.ReadOnly)
         {
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-encrypt", "Key Vault Crypto Service Encryption User",
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-encrypt", "Key Vault Crypto Service Encryption User",
                 args.PrincipalId, args.PrincipalType, args.Vault.Id, args.Vault));
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto", "Key Vault Crypto User", args.PrincipalId,
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-crypto", "Key Vault Crypto User", args.PrincipalId,
                 args.PrincipalType, args.Vault.Id, args.Vault));
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret", "Key Vault Secrets User", args.PrincipalId,
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-secret", "Key Vault Secrets User", args.PrincipalId,
                 args.PrincipalType, args.Vault.Id, args.Vault));
 
             //Read and Write
         }
         else
         {
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-cert", "Key Vault Certificates Officer",
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-cert", "Key Vault Certificates Officer",
                 args.PrincipalId, args.PrincipalType, args.Vault.Id, args.Vault));
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-crypto", "Key Vault Crypto Officer",
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-crypto", "Key Vault Crypto Officer",
                 args.PrincipalId, args.PrincipalType, args.Vault.Id, args.Vault));
-            RoleAssignments.Create(new RoleAssignments.Args($"{vn}-secret", "Key Vault Secrets Officer",
+            RoleAssignments.Assign(new RoleAssignments.Args($"{vn}-secret", "Key Vault Secrets Officer",
                 args.PrincipalId, args.PrincipalType, args.Vault.Id, args.Vault));
         }
     }

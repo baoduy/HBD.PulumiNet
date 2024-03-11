@@ -12,16 +12,23 @@ public class GroupCreator
 
     public record Args(
         string Name,
-        InputList<string> Owners = null,
+        InputList<string>? Owners = default,
         Input<string>[]? Members = default,
         GroupPermissionArgs[]? Permissions = null);
 
-    public static async Task<Group> Create(Args args)
+    public static Group Create(Args args)
     {
         var name = args.Name.ToUpper();
 
         var group = new Group(name,
-            new GroupArgs { DisplayName = name, Owners = args.Owners });
+            new GroupArgs
+            {
+                DisplayName = name,
+                Owners = args.Owners,
+                MailEnabled = false,
+                SecurityEnabled = true,
+                ExternalSendersAllowed = false
+            });
 
         if (args.Members != null)
         {
@@ -37,11 +44,14 @@ public class GroupCreator
         {
             foreach (var p in args.Permissions)
             {
-                RoleAssignments.Create(new RoleAssignments.Args(args.Name, p.RoleName, group.ObjectId,
+                RoleAssignments.Assign(new RoleAssignments.Args(args.Name, p.RoleName, group.ObjectId,
                     PrincipalType.Group, Scope: p.Scope, DependsOn: group));
             }
         }
 
         return group;
     }
+
+    public static Output<GetGroupResult> Get(string name) =>
+        GetGroup.Invoke(new GetGroupInvokeArgs { DisplayName = name });
 }

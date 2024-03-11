@@ -8,20 +8,25 @@ namespace HBD.PulumiNet.AzAd;
 /// </summary>
 public static class RoleAssignments
 {
-    public static RolesBuiltIn.AzRole GetRoleDefinitionByName(string roleName)
+    private static RolesBuiltIn.AzRole GetRoleDefinition(string roleName)
     {
         var role = RolesBuiltIn.Find(roleName);
         if (role == null) throw new Exception($"Role {roleName} not found");
         return role;
     }
 
-    public record Args(string Name, string RoleName, Input<string> PrincipalId,
-        PrincipalType PrincipalType, Input<string>? Scope = default, InputList<Resource>? DependsOn = default);
+    public record Args(
+        string Name,
+        string RoleName,
+        Input<string> PrincipalId,
+        PrincipalType PrincipalType,
+        Input<string>? Scope = default,
+        InputList<Resource>? DependsOn = default);
 
-    public static RoleAssignment Create(Args args)
+    public static RoleAssignment Assign(Args args)
     {
         var scope = args.Scope ?? AzureEnv.DefaultScope;
-        var role = GetRoleDefinitionByName(args.RoleName);
+        var role = GetRoleDefinition(args.RoleName);
 
         return new RoleAssignment(
             $"{args.Name}-{args.RoleName.Replace(" ", string.Empty)}",
@@ -29,8 +34,20 @@ public static class RoleAssignments
             {
                 PrincipalId = args.PrincipalId,
                 PrincipalType = args.PrincipalType,
-                RoleDefinitionId = role.Id,
+                RoleDefinitionId = role.Scope,
                 Scope = scope,
             }, new CustomResourceOptions { DependsOn = args.DependsOn ?? [] });
+    }
+
+    public record GroupRoleArgs(
+        string Name,
+        Input<string> GroupId,
+        Input<string> Scope,
+        InputList<Resource>? DependsOn = default);
+
+    public static void AssignToGroup(GroupRoleArgs args, params string[] roleNames)
+    {
+        foreach (var r in roleNames)
+            Assign(new Args(args.Name, r, args.GroupId, PrincipalType.Group, Scope: args.Scope));
     }
 }

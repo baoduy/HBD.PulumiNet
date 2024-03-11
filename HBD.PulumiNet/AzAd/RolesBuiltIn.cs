@@ -12,6 +12,9 @@ public static class RolesBuiltIn
     }
     public sealed class AzRole
     {
+        [JsonPropertyName("id")]
+        public string Scope { get; set; } = default!;
+        
         [JsonPropertyName("name")]
         public string Id { get; set; } = default!;
         

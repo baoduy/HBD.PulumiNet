@@ -24,7 +24,7 @@ public class RgCreatorTests
         var rs = await Testing.RunAsync<RgCreatorTestStack>();
       
         var group = rs.OfType<ResourceGroup>().FirstOrDefault();
-        var name = group.GetResourceName();
+        var name = group!.GetResourceName();
         name.Should().Be("teststack-group-grp-testorganization");
     }
 }

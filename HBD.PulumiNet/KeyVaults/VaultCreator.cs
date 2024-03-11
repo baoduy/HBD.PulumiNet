@@ -1,4 +1,4 @@
-using Pulumi.AzureNative.Authorization;
+using HBD.PulumiNet.AzAd;
 using Pulumi.AzureNative.KeyVault;
 using Pulumi.AzureNative.KeyVault.Inputs;
 using Core_Helpers = HBD.PulumiNet.Core.Helpers;
@@ -9,31 +9,23 @@ namespace HBD.PulumiNet.KeyVaults;
 
 public static class VaultCreator
 {
-    public class VaultNetwork
+    public sealed class VaultNetwork
     {
         public IList<string> IpAddress { get; set; } = new List<string>();
         public IList<string> SubnetIds { get; set; } = new List<string>();
     }
 
-    public record PermissionsArgs(
-        Input<string> PrincipalId,
-        PrincipalType PrincipalType,
-        Permissions.Type Permission,
-        Input<string>? ApplicationId = null);
-
     public record Args(
         string Name,
         ResourceGroupInfo Group,
-        List<PermissionsArgs> Permissions,
-        ConventionArgs? Convention = default,
+        EnvRoles.EnvRoleResults? Auth = default,
         VaultNetwork? Network = default);
 
     public static (Vault vault, AzResourceInfo info) Create(Args args)
     {
         //Always enable RBAC
         const bool enableRbac = true;
-
-        var name = args.Name.GetKeyVaultName(args.Convention);
+        var name = args.Name.GetKeyVaultName();
 
         var accessPolicies = new InputList<AccessPolicyEntryArgs>();
         //Grant Access permission
@@ -88,13 +80,36 @@ public static class VaultCreator
             Tags = AzureEnv.DefaultTags,
         });
 
-        //Grant RBAC permission
-        if (enableRbac)
+        if (args.Auth is not null)
         {
-            foreach (var p in args.Permissions) 
-                Permissions.GrantVaultRbacPermission(new Permissions.Args(name, p.PrincipalId, p.PrincipalType,
-                    p.Permission, vault));
+            var adminGroupId = GroupCreator.Get(args.Auth.Contributor).Apply(g => g.ObjectId);
+            var readOnlyGroupId = GroupCreator.Get(args.Auth.ReadOnly).Apply(g => g.ObjectId);
+
+            //TODO: Add current principal into Admin group
+           
+            RoleAssignments.AssignToGroup(
+                new RoleAssignments.GroupRoleArgs(Name: name + "_ReadOnly",
+                    GroupId: readOnlyGroupId,
+                    Scope: vault.Id),
+                "Key Vault Crypto Service Encryption User",
+                "Key Vault Crypto User",
+                "Key Vault Secrets User");
+            RoleAssignments.AssignToGroup(new RoleAssignments.GroupRoleArgs(Name: name + "_Admin",
+                    GroupId: adminGroupId,
+                    Scope: vault.Id),
+                "Key Vault Administrator",
+                "Key Vault Crypto User",
+                "Key Vault Certificates Officer",
+                "Key Vault Crypto Officer",
+                "Key Vault Secrets Officer");
         }
+        //Grant RBAC permission
+        // if (enableRbac)
+        // {
+        //     foreach (var p in args.Permissions) 
+        //         Permissions.GrantVaultRbacPermission(new Permissions.Args(name, p.PrincipalId, p.PrincipalType,
+        //             p.Permission, vault));
+        // }
 
         var info = new AzResourceInfo(name, args.Group, vault.Id);
         return (vault, info);
