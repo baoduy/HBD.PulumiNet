@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using HBD.PulumiNet.Core;
 using HBD.PulumiNet.KeyVaults;
-using Pulumi.AzureNative.Portal;
 using Console = System.Console;
 
 public static class Stack
