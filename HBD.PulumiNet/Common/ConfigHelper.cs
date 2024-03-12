@@ -5,13 +5,9 @@ namespace HBD.PulumiNet.Common;
 /// </summary>
 public static class ConfigHelper
 {
-    private static readonly Config _config = new();
-
-    public static string GetValue(string name) => _config.Get(name);
-    
-    public static string RequireValue(string name) => _config.Require(name);
-    
-    public static Output<string>? GetSecret(string name) => _config.GetSecret(name);
-    
-    public static Output<string>? RequireSecret(string name) => _config.RequireSecret(name);
+    private static readonly Config Config = new();
+    public static string? GetValue(string name) => Config.Get(name);
+    public static string RequireValue(string name) => Config.Require(name);
+    public static Output<string>? GetSecret(string name) => Config.GetSecret(name);
+    public static Output<string>? RequireSecret(string name) => Config.RequireSecret(name);
 }

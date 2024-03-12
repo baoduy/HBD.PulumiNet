@@ -4,12 +4,15 @@ namespace HBD.PulumiNet.AzAd;
 
 public static class RoleCreator
 {
-    public record Args(Environments Env,
+    public record Args(
+        Environments Env,
         string AppName,
-        string Name,
-        string? ModuleName = default,
-        Input<string>[]? Members = default,
-        GroupCreator.GroupPermissionArgs[]? Permissions = null);
+        string Name)
+    {
+        public string? ModuleName { get; init; }
+        public Input<string>[]? Members { get; init; }
+        public GroupCreator.GroupPermissionArgs[]? Permissions { get; init; }
+    }
 
     public static string GetRoleName(Args args)
     {
@@ -18,11 +21,14 @@ public static class RoleCreator
             ? $"ROL {e} {args.AppName} {args.Name}".ToUpper()
             : $"ROL {e} {args.AppName}.{args.ModuleName} {args.Name}".ToUpper();
     }
+
     public static Group Create(Args args)
     {
         var name = GetRoleName(args);
-        return GroupCreator.Create(new GroupCreator.Args(name,
-            Members: args.Members,
-            Permissions: args.Permissions));
+        return GroupCreator.Create(new GroupCreator.Args(name)
+        {
+            Members = args.Members,
+            Permissions = args.Permissions
+        });
     }
 }

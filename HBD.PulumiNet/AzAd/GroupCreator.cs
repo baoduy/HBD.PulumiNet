@@ -10,11 +10,12 @@ public class GroupCreator
 {
     public record GroupPermissionArgs(string RoleName, Input<string>? Scope = null);
 
-    public record Args(
-        string Name,
-        InputList<string>? Owners = default,
-        Input<string>[]? Members = default,
-        GroupPermissionArgs[]? Permissions = null);
+    public record Args(string Name)
+    {
+        public InputList<string>? Owners { get; init; }
+        public Input<string>[]? Members { get; init; }
+        public GroupPermissionArgs[]? Permissions { get; init; }
+    }
 
     public static Group Create(Args args)
     {
@@ -24,7 +25,7 @@ public class GroupCreator
             new GroupArgs
             {
                 DisplayName = name,
-                Owners = args.Owners,
+                Owners = args.Owners!,
                 MailEnabled = false,
                 SecurityEnabled = true,
                 ExternalSendersAllowed = false

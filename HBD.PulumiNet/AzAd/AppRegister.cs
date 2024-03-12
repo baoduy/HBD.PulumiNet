@@ -2,6 +2,7 @@ using HBD.PulumiNet.KeyVaults;
 using Pulumi.AzureAD;
 using Pulumi.AzureAD.Inputs;
 using ApplicationAppRoleArgs = Pulumi.AzureAD.Inputs.ApplicationAppRoleArgs;
+
 namespace HBD.PulumiNet.AzAd;
 
 /// <summary>
@@ -9,16 +10,19 @@ namespace HBD.PulumiNet.AzAd;
 /// </summary>
 public static class AppRegister
 {
-    public record Args(string Name,
-        InputList<string>? RedirectUris = null,
-        AzResourceInfo? VaultInfo = null,
-        Input<string>? HomepageUrl = null,
-        Input<string>? LogoutUrl = null,
-        InputList<string>? Owners = null,
-        bool AllowImplicit = false, 
-        bool AllowMultiOrg = false, 
-        InputList<ApplicationAppRoleArgs>? AppRoles = null,
-        InputList<ApplicationApiOauth2PermissionScopeArgs>? Oauth2PermissionScopes = null);
+    public record Args(
+        string Name)
+    {
+        public InputList<string>? RedirectUris { get; init; }
+        public AzResourceInfo? VaultInfo { get; init; }
+        public Input<string>? HomepageUrl { get; init; }
+        public Input<string>? LogoutUrl { get; init; }
+        public InputList<string>? Owners { get; init; }
+        public bool AllowImplicit { get; init; }
+        public bool AllowMultiOrg { get; init; }
+        public InputList<ApplicationAppRoleArgs>? AppRoles { get; init; }
+        public InputList<ApplicationApiOauth2PermissionScopeArgs>? Oauth2PermissionScopes { get; init; }
+    }
 
     public record Result(Output<string> ClientId, Output<string> ClientSecret);
 
@@ -35,7 +39,7 @@ public static class AppRegister
         var parameters = new ApplicationArgs
         {
             DisplayName = name,
-            Owners = args.Owners,
+            Owners = args.Owners!,
             AppRoles = args.AppRoles ?? [],
             SignInAudience = args.AllowMultiOrg ? "AzureADMultipleOrgs" : "AzureADMyOrg",
             GroupMembershipClaims = "SecurityGroup",
@@ -45,13 +49,13 @@ public static class AppRegister
         {
             //SPA
             parameters.SinglePageApplication = new ApplicationSinglePageApplicationArgs
-                {RedirectUris = args.RedirectUris ?? [] };
+                { RedirectUris = args.RedirectUris ?? [] };
             //Web
             parameters.Web = new ApplicationWebArgs
             {
                 HomepageUrl = args.HomepageUrl,
                 ImplicitGrant = new ApplicationWebImplicitGrantArgs
-                    {AccessTokenIssuanceEnabled = true, IdTokenIssuanceEnabled = true},
+                    { AccessTokenIssuanceEnabled = true, IdTokenIssuanceEnabled = true },
                 RedirectUris = args.RedirectUris ?? [],
                 LogoutUrl = args.LogoutUrl
             };
@@ -69,20 +73,25 @@ public static class AppRegister
         var app = new Application(name, parameters);
 
         var appPass = new ApplicationPassword(name, new ApplicationPasswordArgs
-                {DisplayName = name, 
-                    ApplicationObjectId = app.ApplicationId, 
-                    EndDateRelative = "43800h"},
-            new CustomResourceOptions {DependsOn = app});
+            {
+                DisplayName = name,
+                ApplicationObjectId = app.ApplicationId,
+                EndDateRelative = "43800h"
+            },
+            new CustomResourceOptions { DependsOn = app });
 
         var principal = new ServicePrincipal(name,
-            new ServicePrincipalArgs {Description = name, 
-                ApplicationId = app.ApplicationId, 
-                Owners = args.Owners},
-            new CustomResourceOptions {DependsOn = app});
+            new ServicePrincipalArgs
+            {
+                Description = name,
+                ApplicationId = app.ApplicationId,
+                Owners = args.Owners!
+            },
+            new CustomResourceOptions { DependsOn = app });
 
         var principalPass = new ServicePrincipalPassword(name,
-            new ServicePrincipalPasswordArgs {ServicePrincipalId = principal.ObjectId},
-            new CustomResourceOptions {DependsOn = principal});
+            new ServicePrincipalPasswordArgs { ServicePrincipalId = principal.ObjectId },
+            new CustomResourceOptions { DependsOn = principal });
 
         if (args.VaultInfo != null)
         {
@@ -92,7 +101,8 @@ public static class AppRegister
                 $"{name} ClientSecret", DependsOn: appPass));
             VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(principalIdKeyName, principal.ObjectId, args.VaultInfo,
                 $"{name} PrincipalId", DependsOn: principal));
-            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(principalSecretKeyName, principalPass.Value, args.VaultInfo,
+            VaultsHelpers.AddSecret(new VaultsHelpers.SecretArgs(principalSecretKeyName, principalPass.Value,
+                args.VaultInfo,
                 $"{name} PrincipalSecret", DependsOn: principalPass));
         }
 
